@@ -1,0 +1,915 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #0b0d10;
+  --app-bg: #101318;
+  --panel-bg: #11161d;
+  --card-bg: #0d1117;
+
+  --text-main: #d7dde5;
+  --text-muted: #7d8794;
+  --text-faint: #58606b;
+
+  --border: #29313d;
+  --border-strong: #3b4656;
+
+  --green: #38d996;
+  --red: #ff5c7a;
+  --yellow: #f3c969;
+  --blue: #6bb8ff;
+  --purple: #b48cff;
+  --cyan: #4dd8ff;
+
+  --font-mono:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    Menlo,
+    monospace;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 18px;
+  font-family: var(--font-mono);
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    var(--bg);
+  background-size: 28px 28px;
+  color: var(--text-main);
+}
+
+.app {
+  width: min(100%, 1600px);
+  min-height: calc(100vh - 36px);
+  margin: 0 auto;
+  background: var(--app-bg);
+  border: 1px solid var(--border-strong);
+}
+
+.app-header {
+  display: block;
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.app-header > div {
+  padding: 24px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.07em;
+  color: var(--green);
+  text-transform: uppercase;
+}
+
+h1::before {
+  content: "> ";
+  color: var(--text-faint);
+}
+
+.app-header p {
+  margin: 10px 0 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.app-header p::before {
+  content: "// ";
+  color: var(--text-faint);
+}
+
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+  color: var(--blue);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h2::before {
+  content: "[";
+  color: var(--text-faint);
+}
+
+h2::after {
+  content: "]";
+  color: var(--text-faint);
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.summary-card {
+  min-height: 132px;
+  padding: 24px;
+  background: var(--card-bg);
+  border-right: 1px solid var(--border);
+  color: var(--text-main);
+}
+
+.summary-card:last-child {
+  border-right: none;
+}
+
+.summary-card h2 {
+  margin-bottom: 20px;
+}
+
+.summary-card p {
+  margin: 0;
+  font-size: clamp(1.55rem, 2.5vw, 2.65rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+}
+
+.balance-card p {
+  color: var(--cyan);
+}
+
+.income-card p {
+  color: var(--green);
+}
+
+.expense-card p {
+  color: var(--red);
+}
+
+.savings-card p {
+  color: var(--yellow);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.panel {
+  margin: 0;
+  padding: 24px;
+  background: var(--panel-bg);
+  border: none;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.dashboard-grid .panel:nth-child(2) {
+  border-right: none;
+}
+
+.form-section,
+.filters-section,
+.transactions-section,
+.insights-section,
+.category-limits-section,
+.savings-goals-section {
+  border-right: none;
+}
+
+form,
+.filters {
+  display: grid;
+  gap: 10px;
+}
+
+#transaction-form {
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  align-items: start;
+}
+
+#transaction-form .form-actions {
+  grid-column: 1 / -1;
+}
+
+.filters {
+  grid-template-columns: minmax(220px, 2fr) 1fr 1fr 1fr 1.25fr auto;
+}
+
+input,
+select,
+button {
+  width: 100%;
+  padding: 12px 13px;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  border-radius: 0;
+}
+
+input,
+select {
+  background: #07090c;
+  color: var(--text-main);
+  border: 1px solid var(--border);
+}
+
+input::placeholder {
+  color: var(--text-faint);
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 1px var(--blue);
+}
+
+button {
+  background: #151b24;
+  color: var(--green);
+  border: 1px solid var(--green);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease,
+    border-color 0.12s ease;
+}
+
+button:hover {
+  background: var(--green);
+  color: #07100c;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button:disabled:hover {
+  background: #151b24;
+  color: var(--red);
+}
+
+.secondary-btn {
+  background: #151b24;
+  color: var(--blue);
+  border: 1px solid var(--blue);
+}
+
+.secondary-btn:hover {
+  background: var(--blue);
+  color: #06101a;
+}
+
+.danger-btn,
+.delete-btn {
+  background: #151b24;
+  color: var(--red);
+  border: 1px solid var(--red);
+}
+
+.danger-btn:hover,
+.delete-btn:hover {
+  background: var(--red);
+  color: #16070b;
+}
+
+.form-actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+.goal-form,
+.category-limit-form,
+.savings-goal-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.goal-form,
+.category-limit-form {
+  grid-template-columns: 1fr auto;
+}
+
+.goal-results,
+.snark-box {
+  position: relative;
+  padding: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+}
+
+.goal-results p,
+.snark-box p {
+  margin: 8px 0;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+#goal-status {
+  color: var(--yellow);
+}
+
+#budget-suggestion {
+  color: var(--text-muted);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 18px;
+  margin-top: 16px;
+  padding: 3px;
+  background: #07090c;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+#goal-progress {
+  width: 0%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--green),
+    var(--green) 8px,
+    #2fb87f 8px,
+    #2fb87f 16px
+  );
+  transition: width 0.25s linear, background 0.2s linear;
+}
+
+#goal-progress.warning {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--red),
+    var(--red) 8px,
+    #c94b62 8px,
+    #c94b62 16px
+  );
+}
+
+.chart-section canvas {
+  display: block;
+  width: 100%;
+  max-height: 280px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 0;
+}
+
+.monthly-report-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+}
+
+.monthly-report-grid div {
+  min-height: 86px;
+  padding: 14px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.monthly-report-grid div:nth-child(3n) {
+  border-right: none;
+}
+
+.monthly-report-grid div:nth-last-child(-n + 3) {
+  border-bottom: none;
+}
+
+.monthly-report-grid span,
+.savings-bank-status span {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.monthly-report-grid strong,
+.savings-bank-status strong {
+  color: var(--text-main);
+  font-size: 1rem;
+}
+
+#report-income {
+  color: var(--green);
+}
+
+#report-expenses {
+  color: var(--red);
+}
+
+#report-savings,
+#total-savings-bank,
+#allocated-savings {
+  color: var(--yellow);
+}
+
+#report-net,
+#unassigned-savings {
+  color: var(--cyan);
+}
+
+#report-top-category {
+  color: var(--blue);
+}
+
+.savings-bank-status {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+}
+
+.savings-bank-status div {
+  padding: 14px;
+  border-right: 1px solid var(--border);
+}
+
+.savings-bank-status div:last-child {
+  border-right: none;
+}
+
+.savings-goals-list,
+.category-limits-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.savings-goal-item,
+.category-limit-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+}
+
+.savings-goal-main,
+.category-limit-main {
+  display: grid;
+  gap: 8px;
+}
+
+.savings-goal-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.savings-goal-title,
+.category-limit-title {
+  color: var(--text-main);
+  font-weight: 800;
+}
+
+.savings-goal-percent {
+  color: var(--yellow);
+  font-weight: 800;
+}
+
+.savings-goal-meta,
+.category-limit-meta {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.mini-progress {
+  height: 14px;
+  padding: 2px;
+  background: #07090c;
+  border: 1px solid var(--border);
+}
+
+.mini-progress-fill {
+  height: 100%;
+  background: var(--green);
+}
+
+.mini-progress-fill.warning {
+  background: var(--yellow);
+}
+
+.mini-progress-fill.danger {
+  background: var(--red);
+}
+
+.mini-progress-fill.complete {
+  background: var(--cyan);
+}
+
+.remove-limit-btn {
+  width: auto;
+  color: var(--red);
+  border-color: var(--red);
+}
+
+.remove-limit-btn:hover {
+  background: var(--red);
+  color: #16070b;
+}
+
+#insights-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.insight {
+  padding: 14px 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.insight::before {
+  content: "> ";
+  color: var(--text-faint);
+}
+
+.insight.success {
+  color: var(--green);
+  border-color: rgba(56, 217, 150, 0.45);
+}
+
+.insight.warn {
+  color: var(--yellow);
+  border-color: rgba(243, 201, 105, 0.45);
+}
+
+.insight.alert {
+  color: var(--red);
+  border-color: rgba(255, 92, 122, 0.45);
+}
+
+.insight.info {
+  color: var(--blue);
+  border-color: rgba(107, 184, 255, 0.45);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.utility-actions {
+  display: flex;
+  gap: 10px;
+}
+
+#transaction-list {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 0;
+  border: 1px solid var(--border);
+}
+
+.transaction {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 16px;
+  margin: 0;
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.transaction:last-child {
+  border-bottom: none;
+}
+
+.transaction::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+}
+
+.transaction.income::before {
+  background: var(--green);
+}
+
+.transaction.expense::before {
+  background: var(--red);
+}
+
+.transaction.savings::before {
+  background: var(--yellow);
+}
+
+.transaction-main {
+  display: grid;
+  gap: 6px;
+  padding-left: 8px;
+  min-width: 0;
+}
+
+.transaction-title {
+  color: var(--text-main);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.transaction-title::before {
+  content: "$ ";
+  color: var(--text-faint);
+}
+
+.transaction-meta {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.transaction-meta::before {
+  content: ":: ";
+  color: var(--text-faint);
+}
+
+.transaction-details {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.transaction-details::before {
+  content: "// ";
+  color: var(--text-faint);
+}
+
+.transaction-details.muted {
+  color: var(--text-faint);
+}
+
+.transaction-amount {
+  width: fit-content;
+  padding: 4px 8px;
+  background: #07090c;
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+.transaction.income .transaction-amount {
+  color: var(--green);
+  border-color: rgba(56, 217, 150, 0.45);
+}
+
+.transaction.expense .transaction-amount {
+  color: var(--red);
+  border-color: rgba(255, 92, 122, 0.45);
+}
+
+.transaction.savings .transaction-amount {
+  color: var(--yellow);
+  border-color: rgba(243, 201, 105, 0.45);
+}
+
+.transaction-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn,
+.delete-btn {
+  width: auto;
+  padding: 8px 10px;
+  font-size: 0.78rem;
+}
+
+.edit-btn {
+  background: #151b24;
+  color: var(--yellow);
+  border: 1px solid var(--yellow);
+}
+
+.edit-btn:hover {
+  background: var(--yellow);
+  color: #161103;
+}
+
+.empty-message {
+  margin: 18px 0 0;
+  padding: 18px;
+  color: var(--text-muted);
+  text-align: center;
+  background: #07090c;
+  border: 1px dashed var(--border-strong);
+}
+
+.empty-message::before {
+  content: "> ";
+  color: var(--text-faint);
+}
+
+.hidden {
+  display: none;
+}
+
+@media (min-width: 1300px) {
+  .dashboard-grid {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  }
+
+  .panel {
+    padding: 26px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .summary-card:nth-child(2) {
+    border-right: none;
+  }
+
+  .summary-card:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 1100px) {
+  #transaction-form,
+  .filters,
+  .savings-goal-form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #transaction-form .form-actions,
+  .filters button,
+  .savings-goal-form button {
+    grid-column: 1 / -1;
+  }
+
+  .monthly-report-grid,
+  .savings-bank-status {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .monthly-report-grid div:nth-child(3n) {
+    border-right: 1px solid var(--border);
+  }
+
+  .monthly-report-grid div:nth-child(2n),
+  .savings-bank-status div:nth-child(2n) {
+    border-right: none;
+  }
+
+  .monthly-report-grid div:nth-last-child(-n + 3) {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .monthly-report-grid div:nth-last-child(-n + 2) {
+    border-bottom: none;
+  }
+
+  .savings-bank-status div {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .savings-bank-status div:last-child {
+    grid-column: 1 / -1;
+    border-bottom: none;
+    border-right: none;
+  }
+}
+
+@media (max-width: 900px) {
+  body {
+    padding: 12px;
+  }
+
+  .app {
+    min-height: calc(100vh - 24px);
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel,
+  .dashboard-grid .panel:nth-child(2) {
+    border-right: none;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .utility-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 650px) {
+  body {
+    padding: 0;
+  }
+
+  .app {
+    width: 100%;
+    min-height: 100vh;
+    border-left: none;
+    border-right: none;
+  }
+
+  .app-header > div,
+  .summary-card,
+  .panel {
+    padding: 18px;
+  }
+
+  .summary,
+  #transaction-form,
+  .filters,
+  .form-actions,
+  .goal-form,
+  .category-limit-form,
+  .savings-goal-form,
+  .category-limit-item,
+  .savings-goal-item,
+  .transaction,
+  .monthly-report-grid,
+  .savings-bank-status {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-card,
+  .summary-card:nth-child(2),
+  .summary-card:nth-child(-n + 2) {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .summary-card:last-child {
+    border-bottom: none;
+  }
+
+  #transaction-form .form-actions,
+  .filters button,
+  .savings-goal-form button,
+  .savings-bank-status div:last-child {
+    grid-column: auto;
+  }
+
+  .transaction-actions {
+    flex-direction: column;
+  }
+
+  .edit-btn,
+  .delete-btn,
+  .remove-limit-btn {
+    width: 100%;
+  }
+
+  .monthly-report-grid div,
+  .monthly-report-grid div:nth-child(2n),
+  .monthly-report-grid div:nth-child(3n),
+  .monthly-report-grid div:nth-last-child(-n + 2),
+  .monthly-report-grid div:nth-last-child(-n + 3),
+  .savings-bank-status div,
+  .savings-bank-status div:nth-child(2n),
+  .savings-bank-status div:last-child {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .monthly-report-grid div:last-child,
+  .savings-bank-status div:last-child {
+    border-bottom: none;
+  }
+}

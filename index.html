@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finance Terminal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <div>
+        <h1>BUDGET_OS</h1>
+        <p>Track that Bread.</p>
+      </div>
+    </header>
+
+    <section class="summary">
+      <div class="summary-card balance-card">
+        <h2>Spendable</h2>
+        <p id="balance">$0.00</p>
+      </div>
+
+      <div class="summary-card income-card">
+        <h2>Income</h2>
+        <p id="income">$0.00</p>
+      </div>
+
+      <div class="summary-card expense-card">
+        <h2>Expenses</h2>
+        <p id="expenses">$0.00</p>
+      </div>
+
+      <div class="summary-card savings-card">
+        <h2>Savings Bank</h2>
+        <p id="savings-bank">$0.00</p>
+      </div>
+    </section>
+
+    <section class="panel form-section primary-entry">
+      <h2 id="form-title">Add Transaction</h2>
+
+      <form id="transaction-form">
+        <input
+          type="text"
+          id="details"
+          placeholder="Details, e.g. tacos, paycheck, emergency fund transfer"
+        />
+
+        <input
+          type="number"
+          id="amount"
+          placeholder="Amount"
+          min="0.01"
+          step="0.01"
+          required
+        />
+
+        <select id="type">
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+          <option value="savings">Savings</option>
+        </select>
+
+        <select id="category"></select>
+
+        <select id="savings-goal-select" class="hidden"></select>
+
+        <input type="date" id="date" required />
+
+        <div class="form-actions">
+          <button type="submit" id="submit-btn">Add Transaction</button>
+          <button type="button" id="cancel-edit-btn" class="secondary-btn hidden">
+            Cancel Edit
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <section class="dashboard-grid">
+      <section class="panel monthly-report-section">
+        <h2>Monthly Report</h2>
+
+        <div class="monthly-report-grid">
+          <div>
+            <span>Month</span>
+            <strong id="report-month">--</strong>
+          </div>
+
+          <div>
+            <span>Income</span>
+            <strong id="report-income">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Expenses</span>
+            <strong id="report-expenses">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Savings</span>
+            <strong id="report-savings">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Spendable</span>
+            <strong id="report-net">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Top Category</span>
+            <strong id="report-top-category">None</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel snark-section">
+        <h2>Money Fairy</h2>
+
+        <div class="snark-box">
+          <p id="snark-message">
+            Awaiting your next financial decision...
+          </p>
+        </div>
+      </section>
+    </section>
+
+    <section class="dashboard-grid">
+      <section class="panel goal-section">
+        <h2>Monthly Spending Cap</h2>
+
+        <div class="goal-form">
+          <input
+            type="number"
+            id="budget-goal"
+            placeholder="Max monthly spending"
+            min="0"
+            step="0.01"
+          />
+
+          <button type="button" id="set-goal-btn">Set Cap</button>
+        </div>
+
+        <div class="goal-results">
+          <p id="goal-status">Set a spending cap to get feedback.</p>
+          <p id="budget-suggestion">Add income, expenses, and savings to see feedback.</p>
+
+          <div class="progress-bar">
+            <div id="goal-progress"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel chart-section">
+        <h2>Spending by Category</h2>
+        <canvas id="category-chart" width="400" height="260"></canvas>
+      </section>
+    </section>
+
+    <section class="panel savings-goals-section">
+      <h2>Savings Goals</h2>
+
+      <form id="savings-goal-form" class="savings-goal-form">
+        <input
+          type="text"
+          id="savings-goal-name"
+          placeholder="Goal name, e.g. Vacation Fund"
+          required
+        />
+
+        <input
+          type="number"
+          id="savings-goal-target"
+          placeholder="Target amount"
+          min="0.01"
+          step="0.01"
+          required
+        />
+
+        <button type="submit">Add Goal</button>
+      </form>
+
+      <div class="savings-bank-status">
+        <div>
+          <span>Total Savings Bank</span>
+          <strong id="total-savings-bank">$0.00</strong>
+        </div>
+
+        <div>
+          <span>Allocated to Goals</span>
+          <strong id="allocated-savings">$0.00</strong>
+        </div>
+
+        <div>
+          <span>Unassigned Savings</span>
+          <strong id="unassigned-savings">$0.00</strong>
+        </div>
+      </div>
+
+      <div id="savings-goals-list" class="savings-goals-list"></div>
+    </section>
+
+    <section class="panel insights-section">
+      <h2>Spending Insights</h2>
+      <ul id="insights-list"></ul>
+    </section>
+
+    <section class="panel category-limits-section">
+      <h2>Category Budget Limits</h2>
+
+      <form id="category-limit-form" class="category-limit-form">
+        <select id="limit-category"></select>
+
+        <input
+          type="number"
+          id="limit-amount"
+          placeholder="Limit amount"
+          min="0.01"
+          step="0.01"
+        />
+
+        <button type="submit">Set Limit</button>
+      </form>
+
+      <div id="category-limits-list" class="category-limits-list"></div>
+    </section>
+
+    <section class="panel filters-section">
+      <h2>Filters</h2>
+
+      <div class="filters">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search details, category, or savings goal..."
+        />
+
+        <select id="filter-type">
+          <option value="all">All Types</option>
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+          <option value="savings">Savings</option>
+        </select>
+
+        <select id="filter-category"></select>
+
+        <input type="month" id="filter-month" />
+
+        <select id="sort-transactions">
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+          <option value="highest">Highest Amount</option>
+          <option value="lowest">Lowest Amount</option>
+          <option value="income-first">Income First</option>
+          <option value="expense-first">Expenses First</option>
+          <option value="savings-first">Savings First</option>
+        </select>
+
+        <button type="button" id="reset-filters-btn" class="secondary-btn">
+          Reset Filters
+        </button>
+      </div>
+    </section>
+
+    <section class="panel transactions-section">
+      <div class="section-header">
+        <h2>Transactions</h2>
+
+        <div class="utility-actions">
+          <button type="button" id="export-csv-btn" class="secondary-btn">
+            Export CSV
+          </button>
+
+          <button type="button" id="clear-all-btn" class="danger-btn">
+            Clear All
+          </button>
+        </div>
+      </div>
+
+      <ul id="transaction-list"></ul>
+
+      <p id="empty-message" class="empty-message">
+        No transactions yet. Add one above.
+      </p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
