@@ -3,24 +3,24 @@
 }
 
 :root {
-  --bg: #0b0d10;
-  --app-bg: #101318;
-  --panel-bg: #11161d;
-  --card-bg: #0d1117;
+  --bg: #000000;
+  --app-bg: #030303;
+  --panel-bg: #050505;
+  --card-bg: #000000;
 
-  --text-main: #d7dde5;
-  --text-muted: #7d8794;
-  --text-faint: #58606b;
+  --text-main: #f8fbff;
+  --text-muted: #a8b3c2;
+  --text-faint: #697386;
 
-  --border: #29313d;
-  --border-strong: #3b4656;
+  --border: #202833;
+  --border-strong: #39465a;
 
-  --green: #38d996;
-  --red: #ff5c7a;
-  --yellow: #f3c969;
-  --blue: #6bb8ff;
-  --purple: #b48cff;
-  --cyan: #4dd8ff;
+  --green: #00ff9c;
+  --red: #ff2f68;
+  --yellow: #ffd84d;
+  --blue: #40b7ff;
+  --purple: #bc6cff;
+  --cyan: #00e7ff;
 
   --font-mono:
     "SFMono-Regular",
@@ -36,8 +36,8 @@ body {
   padding: 18px;
   font-family: var(--font-mono);
   background:
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
     var(--bg);
   background-size: 28px 28px;
   color: var(--text-main);
@@ -81,6 +81,18 @@ h1::before {
 }
 
 .app-header p::before {
+  content: "// ";
+  color: var(--text-faint);
+}
+
+.section-note {
+  margin: -6px 0 16px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.section-note::before {
   content: "// ";
   color: var(--text-faint);
 }
@@ -178,7 +190,11 @@ h2::after {
 .transactions-section,
 .insights-section,
 .category-limits-section,
-.savings-goals-section {
+.savings-goals-section,
+.recurring-section,
+.future-bills-section,
+.monthly-breakdown-section,
+.overview-control-section {
   border-right: none;
 }
 
@@ -213,7 +229,7 @@ button {
 
 input,
 select {
-  background: #07090c;
+  background: #000000;
   color: var(--text-main);
   border: 1px solid var(--border);
 }
@@ -221,6 +237,26 @@ select {
 input::placeholder {
   color: var(--text-faint);
 }
+
+
+.native-date-picker {
+  cursor: pointer;
+}
+
+.native-date-picker::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(78%) sepia(80%) saturate(1024%) hue-rotate(141deg) brightness(103%) contrast(105%);
+  opacity: 1;
+}
+
+.native-date-picker::-webkit-datetime-edit {
+  color: var(--text-main);
+}
+
+.native-date-picker:invalid::-webkit-datetime-edit {
+  color: var(--text-faint);
+}
+
 
 input:focus,
 select:focus {
@@ -230,7 +266,7 @@ select:focus {
 }
 
 button {
-  background: #151b24;
+  background: #080808;
   color: var(--green);
   border: 1px solid var(--green);
   font-weight: 800;
@@ -258,12 +294,12 @@ button:disabled {
 }
 
 button:disabled:hover {
-  background: #151b24;
+  background: #080808;
   color: var(--red);
 }
 
 .secondary-btn {
-  background: #151b24;
+  background: #080808;
   color: var(--blue);
   border: 1px solid var(--blue);
 }
@@ -275,7 +311,7 @@ button:disabled:hover {
 
 .danger-btn,
 .delete-btn {
-  background: #151b24;
+  background: #080808;
   color: var(--red);
   border: 1px solid var(--red);
 }
@@ -294,11 +330,16 @@ button:disabled:hover {
 
 .goal-form,
 .category-limit-form,
-.savings-goal-form {
+.savings-goal-form,
+.recurring-bill-form {
   display: grid;
   grid-template-columns: 1fr 1fr auto;
   gap: 10px;
   margin-bottom: 16px;
+}
+
+.recurring-bill-form {
+  grid-template-columns: minmax(200px, 2fr) 1fr 1fr 0.75fr 1fr auto;
 }
 
 .goal-form,
@@ -335,7 +376,7 @@ button:disabled:hover {
   height: 18px;
   margin-top: 16px;
   padding: 3px;
-  background: #07090c;
+  background: #000000;
   border: 1px solid var(--border);
   overflow: hidden;
 }
@@ -347,8 +388,8 @@ button:disabled:hover {
     90deg,
     var(--green),
     var(--green) 8px,
-    #2fb87f 8px,
-    #2fb87f 16px
+    #00b870 8px,
+    #00b870 16px
   );
   transition: width 0.25s linear, background 0.2s linear;
 }
@@ -358,8 +399,8 @@ button:disabled:hover {
     90deg,
     var(--red),
     var(--red) 8px,
-    #c94b62 8px,
-    #c94b62 16px
+    #b71947 8px,
+    #b71947 16px
   );
 }
 
@@ -374,7 +415,7 @@ button:disabled:hover {
 
 .monthly-report-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   border: 1px solid var(--border);
   background: var(--card-bg);
 }
@@ -386,11 +427,11 @@ button:disabled:hover {
   border-bottom: 1px solid var(--border);
 }
 
-.monthly-report-grid div:nth-child(3n) {
+.monthly-report-grid div:nth-child(4n) {
   border-right: none;
 }
 
-.monthly-report-grid div:nth-last-child(-n + 3) {
+.monthly-report-grid div:nth-last-child(-n + 4) {
   border-bottom: none;
 }
 
@@ -501,7 +542,7 @@ button:disabled:hover {
 .mini-progress {
   height: 14px;
   padding: 2px;
-  background: #07090c;
+  background: #000000;
   border: 1px solid var(--border);
 }
 
@@ -675,7 +716,7 @@ button:disabled:hover {
 .transaction-amount {
   width: fit-content;
   padding: 4px 8px;
-  background: #07090c;
+  background: #000000;
   border: 1px solid var(--border);
   font-size: 0.9rem;
   font-weight: 900;
@@ -709,7 +750,7 @@ button:disabled:hover {
 }
 
 .edit-btn {
-  background: #151b24;
+  background: #080808;
   color: var(--yellow);
   border: 1px solid var(--yellow);
 }
@@ -724,7 +765,7 @@ button:disabled:hover {
   padding: 18px;
   color: var(--text-muted);
   text-align: center;
-  background: #07090c;
+  background: #000000;
   border: 1px dashed var(--border-strong);
 }
 
@@ -735,6 +776,195 @@ button:disabled:hover {
 
 .hidden {
   display: none;
+}
+
+
+.overview-controls {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+#overview-note {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+#report-recurring {
+  color: var(--purple);
+}
+
+#report-future-bills {
+  color: var(--cyan);
+}
+
+.recurring-bills-list,
+.future-bills-list,
+.monthly-breakdown-list {
+  display: grid;
+  gap: 10px;
+}
+
+.recurring-bill-item,
+.future-bill-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+}
+
+.recurring-bill-main {
+  display: grid;
+  gap: 7px;
+}
+
+.recurring-bill-title,
+.future-bill-title {
+  color: var(--text-main);
+  font-weight: 800;
+}
+
+.recurring-bill-title::before,
+.future-bill-title::before {
+  content: "$ ";
+  color: var(--text-faint);
+}
+
+.recurring-bill-meta,
+.future-bill-meta {
+  display: block;
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.future-bill-item strong {
+  color: var(--cyan);
+}
+
+.recurring-transaction {
+  background:
+    linear-gradient(90deg, rgba(188, 108, 255, 0.1), transparent 45%),
+    var(--card-bg);
+}
+
+.transaction-side {
+  display: grid;
+  gap: 8px;
+  justify-items: end;
+}
+
+.year-breakdown {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+}
+
+.year-breakdown h3 {
+  margin: 0;
+  color: var(--purple);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+}
+
+.year-breakdown h3::before {
+  content: "{ ";
+  color: var(--text-faint);
+}
+
+.year-breakdown h3::after {
+  content: " }";
+  color: var(--text-faint);
+}
+
+.year-total {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.month-breakdown-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.month-breakdown-card {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  text-align: left;
+  background: #000000;
+  border-color: var(--border);
+  color: var(--text-main);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.month-breakdown-card:hover {
+  background: #030a10;
+  color: var(--text-main);
+  border-color: var(--cyan);
+}
+
+.month-breakdown-card span {
+  color: var(--blue);
+  font-weight: 800;
+}
+
+.month-breakdown-card strong {
+  color: var(--green);
+  font-size: 1.1rem;
+}
+
+.month-breakdown-card small {
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+@media (max-width: 1100px) {
+  .recurring-bill-form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .recurring-bill-form button {
+    grid-column: 1 / -1;
+  }
+
+  .monthly-report-grid,
+  .month-breakdown-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .monthly-report-grid div:nth-child(4n),
+  .monthly-report-grid div:nth-child(3n),
+  .monthly-report-grid div:nth-last-child(-n + 4),
+  .monthly-report-grid div:nth-last-child(-n + 3) {
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .monthly-report-grid div:nth-child(2n) {
+    border-right: none;
+  }
+
+  .monthly-report-grid div:nth-last-child(-n + 2) {
+    border-bottom: none;
+  }
+
+  .overview-controls {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (min-width: 1300px) {
@@ -911,5 +1141,26 @@ button:disabled:hover {
   .monthly-report-grid div:last-child,
   .savings-bank-status div:last-child {
     border-bottom: none;
+  }
+}
+
+.dashboard-grid .chart-section:only-child {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 650px) {
+  .recurring-bill-form,
+  .recurring-bill-item,
+  .future-bill-item,
+  .month-breakdown-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .recurring-bill-form button {
+    grid-column: auto;
+  }
+
+  .transaction-side {
+    justify-items: stretch;
   }
 }
