@@ -15,6 +15,14 @@
       </div>
     </header>
 
+    <section class="panel overview-control-section">
+      <h2>Overview Month</h2>
+      <div class="overview-controls">
+        <input type="month" id="overview-month" class="native-date-picker" title="Choose an overview month from the picker." />
+        <p id="overview-note">Spendable, report, limits, recurring bills, and future bills are calculated for this month only.</p>
+      </div>
+    </section>
+
     <section class="summary">
       <div class="summary-card balance-card">
         <h2>Spendable</h2>
@@ -66,7 +74,7 @@
 
         <select id="savings-goal-select" class="hidden"></select>
 
-        <input type="date" id="date" required />
+        <input type="date" id="date" class="native-date-picker" title="Choose a transaction date from the calendar. This stays blank until you select one." required />
 
         <div class="form-actions">
           <button type="submit" id="submit-btn">Add Transaction</button>
@@ -75,6 +83,43 @@
           </button>
         </div>
       </form>
+    </section>
+
+    <section class="panel recurring-section">
+      <h2>Recurring Bills</h2>
+      <p class="section-note">Recurring bills repeat every month. Pick the due date once; only the day of the month is used.</p>
+
+      <form id="recurring-bill-form" class="recurring-bill-form">
+        <input
+          type="text"
+          id="recurring-details"
+          placeholder="Bill name, e.g. Rent or Car Payment"
+          required
+        />
+
+        <input
+          type="number"
+          id="recurring-amount"
+          placeholder="Amount"
+          min="0.01"
+          step="0.01"
+          required
+        />
+
+        <select id="recurring-category"></select>
+
+        <input
+          type="date"
+          id="recurring-due-date"
+          class="native-date-picker"
+          title="Choose any due date from the calendar. Only the day of the month is used, and the bill repeats every month."
+          required
+        />
+
+        <button type="submit">Add Bill</button>
+      </form>
+
+      <div id="recurring-bills-list" class="recurring-bills-list"></div>
     </section>
 
     <section class="dashboard-grid">
@@ -111,6 +156,16 @@
             <span>Top Category</span>
             <strong id="report-top-category">None</strong>
           </div>
+
+          <div>
+            <span>Recurring Bills</span>
+            <strong id="report-recurring">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Future Bills</span>
+            <strong id="report-future-bills">$0.00</strong>
+          </div>
         </div>
       </section>
 
@@ -126,31 +181,6 @@
     </section>
 
     <section class="dashboard-grid">
-      <section class="panel goal-section">
-        <h2>Monthly Spending Cap</h2>
-
-        <div class="goal-form">
-          <input
-            type="number"
-            id="budget-goal"
-            placeholder="Max monthly spending"
-            min="0"
-            step="0.01"
-          />
-
-          <button type="button" id="set-goal-btn">Set Cap</button>
-        </div>
-
-        <div class="goal-results">
-          <p id="goal-status">Set a spending cap to get feedback.</p>
-          <p id="budget-suggestion">Add income, expenses, and savings to see feedback.</p>
-
-          <div class="progress-bar">
-            <div id="goal-progress"></div>
-          </div>
-        </div>
-      </section>
-
       <section class="panel chart-section">
         <h2>Spending by Category</h2>
         <canvas id="category-chart" width="400" height="260"></canvas>
@@ -244,7 +274,7 @@
 
         <select id="filter-category"></select>
 
-        <input type="month" id="filter-month" />
+        <input type="month" id="filter-month" class="native-date-picker" title="Choose a month to filter transactions." />
 
         <select id="sort-transactions">
           <option value="newest">Newest First</option>
@@ -260,6 +290,16 @@
           Reset Filters
         </button>
       </div>
+    </section>
+
+    <section class="panel future-bills-section">
+      <h2>Future Bills</h2>
+      <div id="future-bills-list" class="future-bills-list"></div>
+    </section>
+
+    <section class="panel monthly-breakdown-section">
+      <h2>Month & Year Breakdown</h2>
+      <div id="monthly-breakdown-list" class="monthly-breakdown-list"></div>
     </section>
 
     <section class="panel transactions-section">
